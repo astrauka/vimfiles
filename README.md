@@ -1,4 +1,4 @@
-saulius vim configuration
+Karolis vim configuration
 =========================
 
 Thanks to these guys:
