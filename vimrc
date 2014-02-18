@@ -13,6 +13,16 @@ set encoding=utf-8
 
 filetype plugin indent on
 
+" Setting up Vundle - the vim plugin bundler
+let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+if !filereadable(vundle_readme)
+  echo "Installing Vundle.."
+  echo ""
+  silent !mkdir -p ~/.vim/bundle
+  silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+endif
+" Setting up Vundle - the vim plugin bundler end
+
 if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
 endi
@@ -60,7 +70,7 @@ set hlsearch                      " highlight matches
 set incsearch                     " incremental searching
 set ignorecase                    " searches are case insensitive...
 set smartcase                     " ... unless they contain at least one capital letter
-set relativenumber
+" set relativenumber
 
 function s:setupWrapping()
 set wrap
@@ -119,6 +129,9 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+
+silent !mkdir -p ~/.vim/_backup
+silent !mkdir -p ~/.vim/_temp
 
 set backupdir=~/.vim/_backup    " where to put backup files.
 set directory=~/.vim/_temp      " where to put swap files.
@@ -191,22 +204,48 @@ endfunction
 
 map <leader>n :call RenameFile()<cr>
 
-function! SpecRunner()
-  if filereadable("zeus.json")
-    return "zeus "
-  else
-    return "bundle exec "
+function! SpecRunner(runner)
+  if match(g:rspec_command, "Dispatch") < 0
+    let g:rspec_command = "Dispatch spring rspec {spec}"
   endif
+
+  return 0
 endfunction
 
-let g:rspec_command = "Dispatch " . SpecRunner() . "rspec {spec}"
+function! DefineSpecRunner(runner)
+  let g:rspec_command = "Dispatch " . a:runner . "rspec {spec}"
+  return 0
+endfunction
 
 " Rspec.vim mappings
-map <Leader>st :call RunCurrentSpecFile()<CR>
-map <Leader>ss :call RunNearestSpec()<CR>
-map <Leader>sl :call RunLastSpec()<CR>
-map <Leader>sa :call RunAllSpecs()<CR>
+map <Leader>sz :call DefineSpecRunner("zeus ")<CR>
+map <Leader>sw :call DefineSpecRunner("spring ")<CR>
+map <Leader>st :call SpecRunner("") \| call RunCurrentSpecFile()<CR>
+map <Leader>ss :call SpecRunner("") \| call RunNearestSpec()<CR>
+map <Leader>sl :call SpecRunner("") \| call RunLastSpec()<CR>
+map <Leader>sa :call SpecRunner("bundle exec ") \| call RunAllSpecs()<CR>
 map <Leader>sc :ccl<CR>
 
 " fast saving
 map <Leader>w :w<cr>
+
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+
+" Adjust window heigth for quickfix
+au FileType qf call AdjustWindowHeight(3, 30)
+function! AdjustWindowHeight(minheight, maxheight)
+  let l = 1
+  let n_lines = 0
+  let w_width = winwidth(0)
+  while l <= line('$')
+    " number to float for division
+    let l_len = strlen(getline(l)) + 0.0
+    let line_width = l_len/w_width
+    let n_lines += float2nr(ceil(line_width))
+    let l += 1
+  endw
+  exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
+
+  exe "normal! G"
+endfunction

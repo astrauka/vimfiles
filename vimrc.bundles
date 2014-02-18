@@ -28,6 +28,8 @@ Bundle 'jiangmiao/auto-pairs'
 Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-dispatch'
 Bundle 'thoughtbot/vim-rspec'
+Bundle 'scrooloose/nerdtree'
+Bundle 'juvenn/mustache.vim'
 
 " Bundle 'tpope/vim-fugitive'
 " Bundle 'tpope/vim-surround'
