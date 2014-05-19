@@ -68,7 +68,7 @@ set listchars+=precedes:<         " The character to show in the first column wh
 "" Searching
 set hlsearch                      " highlight matches
 set incsearch                     " incremental searching
-set ignorecase                    " searches are case insensitive...
+"set ignorecase                    " searches are case insensitive...
 set smartcase                     " ... unless they contain at least one capital letter
 " set relativenumber
 
@@ -116,6 +116,7 @@ let mapleader=","
 
 " ignore Rubinius, Sass cache files
 set wildignore+=*.rbc,*.scssc,*.sassc
+set wildignore+=*/tmp/*,*/uploads/*,*.so,*.swp,*.zip
 
 nnoremap <leader><leader> <c-^>
 
@@ -220,6 +221,7 @@ endfunction
 " Rspec.vim mappings
 map <Leader>sz :call DefineSpecRunner("zeus ")<CR>
 map <Leader>sw :call DefineSpecRunner("spring ")<CR>
+map <Leader>sn :call DefineSpecRunner(" ")<CR>
 map <Leader>st :call SpecRunner("") \| call RunCurrentSpecFile()<CR>
 map <Leader>ss :call SpecRunner("") \| call RunNearestSpec()<CR>
 map <Leader>sl :call SpecRunner("") \| call RunLastSpec()<CR>
@@ -249,3 +251,6 @@ function! AdjustWindowHeight(minheight, maxheight)
 
   exe "normal! G"
 endfunction
+
+" delete untill underscore
+" set iskeyword-=_
