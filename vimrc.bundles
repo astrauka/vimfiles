@@ -30,6 +30,7 @@ Bundle 'tpope/vim-dispatch'
 Bundle 'thoughtbot/vim-rspec'
 Bundle 'scrooloose/nerdtree'
 Bundle 'juvenn/mustache.vim'
+Bundle 'vim-scripts/VimClojure.git'
 
 " Bundle 'tpope/vim-fugitive'
 " Bundle 'tpope/vim-surround'

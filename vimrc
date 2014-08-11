@@ -27,10 +27,10 @@ if filereadable(expand("~/.vimrc.bundles"))
   source ~/.vimrc.bundles
 endi
 
-set background=light
+" set background=light
 syntax on
 set t_Co=256
-colorscheme espresso_soda
+" colorscheme espresso_soda
 :set fillchars+=vert:\
 
 " Numbers
@@ -75,7 +75,7 @@ set smartcase                     " ... unless they contain at least one capital
 function s:setupWrapping()
 set wrap
 set wrapmargin=2
-set textwidth=72
+set textwidth=82
 endfunction
 
 if has("autocmd")
@@ -84,6 +84,9 @@ au FileType make set noexpandtab
 
 " Make sure all markdown files have the correct filetype set and setup wrapping
 au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn,txt} setf markdown | call s:setupWrapping()
+
+" .properties files syntax
+au BufRead,BufNewFile *.{properties,properties.erb} set ft=jproperties | call s:setupWrapping()
 
 " Treat JSON files like JavaScript
 au BufNewFile,BufRead *.json set ft=javascript
@@ -254,3 +257,31 @@ endfunction
 
 " delete untill underscore
 " set iskeyword-=_
+
+" VIM colors
+set background=dark
+colorscheme base16-railscasts
+
+highlight clear SignColumn
+highlight VertSplit    ctermbg=236
+" highlight HorizSplit   guifg=#222222 guibg=#222222
+highlight ColorColumn  ctermbg=7
+" highlight LineNr       ctermbg=236 ctermfg=240
+" highlight CursorLineNr ctermbg=236 ctermfg=240
+highlight CursorLine   ctermbg=0
+highlight StatusLineNC ctermbg=238 ctermfg=12
+highlight StatusLine   ctermbg=240 ctermfg=1
+highlight IncSearch    ctermbg=3   ctermfg=1
+highlight Search       ctermbg=1   ctermfg=3
+highlight Visual       ctermbg=3   ctermfg=0
+highlight Pmenu        ctermbg=240 ctermfg=12
+highlight PmenuSel     ctermbg=3   ctermfg=1
+highlight SpellBad     ctermbg=0   ctermfg=1
+
+" clojure
+" execute pathogen#infect()
+" syntax on
+" filetype plugin indent on
+" set nocul
+
+noremap <silent> <F10> :set number!<CR>
